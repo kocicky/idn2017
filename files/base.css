@@ -1,0 +1,602 @@
+/* --------------------------------------------------------------------------------------------
+    Autor:
+      Jan Dousek (prace@jandousek.cz)
+    Struktura:
+      rozmery, pozice, vrstvy, pozadi, ramecky, pisma, barvy, kurzory
+-------------------------------------------------------------------------------------------- */
+
+/*  Reset  --------------------------------- */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, acronym, address, big, cite, code, del, dfn, font, img, ins, kbd, q, samp, small, sub, sup, tt, var, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	line-height: 100%;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+	text-align: left;
+}
+
+ul li{list-style:none;}
+img{display:block;}
+input,textarea{vertical-align:middle;font:1em Arial,Helvetica,sans-serif;outline:none;}
+input,label{cursor:pointer;}
+textarea{overflow:auto;resize:none;}
+abbr{border-bottom:1px dotted #000;cursor:help;}
+
+
+/*  Skryvani  --------------------------------- */
+.no-screen, hr, legend, form br, .wpcf7-display-none {
+	display: none;
+}
+
+/*  Hromadne  --------------------------------- */
+
+.t-left{text-align:left;}
+.t-right{text-align:right;}
+.t-center{text-align:center;}
+
+.va-top{vertical-align:top;}
+.va-bottom{vertical-align:bottom;}
+
+.up-case{text-transform:uppercase;}
+.low-case{text-transform:lowercase;}
+
+/*  Grid layout  --------------------------------- */
+
+.text .grid{float:left;margin:0 25px 20px 0;}
+.text .grid.i2{width:40%;}
+.text .grid.i3{width:27%;}
+.text .grid.i4{width:19%;}
+
+/*  Pokrocily clear  --------------------------------- */
+
+.box, .center, .content, .navs:after, .navs, .tabs, .footer, .gallery, .social, .select, form p, .article, .article ul, .paging, .navs, .archive {
+	min-height: 1px;
+}
+
+.box:after, .center:after, .navs:after, .navs:after, .content:after, .tabs:after, .footer:after, .gallery:after, .social:after, .select:after, form p:after, .article:after, .article ul:after, .paging:after, .navs:after, .archive:after {
+	display: block;
+	visibility: hidden;
+	clear: both;
+	line-height: 0;
+	font-size: 0;
+	content: ".";
+}
+
+/*  Clear  --------------------------------- */
+
+.clear{float:none;clear:both;display:block;width:0;height:0;margin:0;padding:0;line-height:0;font-size:0;}
+
+
+
+
+body {
+  background: #fff;
+	font: 75% Georgia, sans-serif;
+	color: #000;
+}
+
+a{color:#921f0a;}
+a:hover,a:focus{color:#1a1a1a;}
+
+/*  Centrovani a obaly  --------------------------------- */
+@media (min-width: 981px) 
+{
+	.center
+	   {width:940px;min-height:500px;margin:0 auto;padding:0 13px 20px 13px;background:#fff url('../img/center.gif') 713px top repeat-y;}
+	.content{width:670px;min-height:100px;float:left;padding-top:20px;}   
+}
+@media (min-width: 750px) 
+{
+	.center
+	   {width:940px;min-height:500px;margin:0 auto;padding:0 13px 20px 13px;background:#fff url('../img/center.gif') 713px top repeat-y;}
+	.content{width:670px;min-height:100px;float:left;}   
+}
+
+/*  Tlacitka  --------------------------------- */
+.btn{display:inline-block;padding:6px 10px 7px 10px;background-color:#921f0a;text-align:center;font:bold 1em Georgia,sans-serif;color:#fff !important;}
+.btn:hover{background-color:#000;}
+
+/* --------------------------------------------------------------------------------------------
+    Hlavicka
+-------------------------------------------------------------------------------------------- */
+
+/*  Logo  --------------------------------- */
+.poutac{float:left;position:relative;}
+.poutac-img{float:none;display: block;width:480px;height:auto;}
+.poutac .logo-dn{position:absolute;top:0px;text-indent: -9999px;width:150px;height:147px;background-image:url(./logo.svg);background-repeat: no-repeat;margin:10px}
+
+@media (min-width: 981px) 
+{.claim{float:left;width:440px;height:170px;display:table;}
+}
+@media (max-width: 980px) 
+{.claim{float:left;max-width:46%;height:170px;display:table;}
+.content{clear:both;}
+
+}
+@media (max-width: 850px) 
+{.claim{float:left;max-width:33%;height:170px;display:table;}
+}
+@media (max-width: 730px) 
+{
+.poutac-img{float:none;width:100%;height:auto;display:block;}
+.claim{float:left;max-width:100%;height:4em;display:block; margin: 20x 0;} 
+.poutac .logo-dn{width:80px;height:80px;} 
+.sponzori{display:none;}
+}
+
+.claim div{display: table-cell;vertical-align:bottom;padding: 0 10px 10px 10px;}
+.title{min-height:20px;font:bold 1.5em 'Bree';color:#000;}
+.sponzori{font:normal 1em Georgia,'Times new Roman,serif';line-height: 1.2;}
+
+#p-menu{position:relative;clear:both;width:100%;color:#FFF;background:#85236E;font:bold 1.45em 'Bree'; }
+#p-menu menu {position:relative; clear:both; display:table; width:100%; min-height:1.84em; line-height:1.84; margin:0 auto; -webkit-padding-start: 10px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;}
+#p-menu li{position:relative;float:left;list-style: none;height: 1.8em;line-height: 1.8;margin: 4px 0 0;}
+#p-menu li a{text-decoration: none;color:#FFF;}
+#p-menu li a:hover{color:#000;}
+.vydani{position:relative;float:left;font-size: 1.6em;line-height: 1.29;}
+#p-menu table{position:relative;float:left;font:normal .7em 'Bree';margin:1px 10px 0 10px;width: 100px;}
+#p-menu table span{color:#FFAD2D;}
+#p-menu .nib {position:absolute; top:.3em; right:0; width:1px; height:1.2em; background:#999;}
+menu a{padding:0 .5em; color:#000}
+li:last-child .nib {display:none}
+#p-menu .fb{padding:0;float:right;width:30px;height:30px;display: table-cell;background-image: url(./fb.svg);text-indent: -9999px;background-repeat: no-repeat;}
+.menu-touch{display:none;}
+
+@media (max-width: 730px) 
+{.menu-touch{display:inline;position:absolute;bottom:10px;right:10px;z-index:2;background:#85236E;padding:2px 10px;color:#FFF;background:#85236E;font:bold 1.45em 'Bree'; text-decoration:none;}
+}
+
+/*  Navigace  --------------------------------- */
+.navs{width:478px;position:relative;float:left;margin:13px 0 22px 0;}
+
+/*  Hlavni  ----------------- */
+.navs .menu{float:left;font:normal 1.2em 'Bree';}
+.navs .menu li{margin-bottom:4px;}
+.navs .menu li.last{margin-bottom:0;}
+.navs .menu li a{min-height:16px;display:inline-block;padding:3px 4px 0 4px;background-color:#921f0a;text-decoration:none;color:#fff;}
+
+/*  Stavy  */
+.navs .menu li a:hover,.navs .menu li.ac a{background-color:#1a1a1a;}
+
+/*  Kategorie  ----------------- */
+.navs .box{width:448px;position:absolute;right:0;top:0;z-index:1;display:none;overflow:hidden;padding:15px 10px 15px 23px;background:#fafafa url('../img/navs-cats.png') 457px 10px no-repeat;box-shadow:0 0 30px -10px #878787;border:1px solid #d8d8d8;text-shadow:1px 1px 0 #fff;cursor:pointer;}
+.navs .box li{width:200px;float:left;padding:5px 0 5px 13px;background:url('../img/navs-cats-li.png') left 6px no-repeat;}
+.navs .box li a{color:#797979;}
+.navs .box.i2 li{width:120px;}
+.navs .box li ul{margin:4px 0 0 -12px;}
+
+/*  Zobrazeni kategorii  -------- */
+.navs .cats-menu{float:right;}
+.navs .cats-menu li{clear:both;margin-bottom:3px;}
+.navs .cats-menu li a{display:block;padding-right:13px;background:url('../img/navs-h3.png') right 5px no-repeat;text-align:right;font:normal 1.25em 'Bree';text-decoration:underline;color:#921f0b;cursor:pointer;}
+.navs .cats-menu li ul{margin-top:7px;}
+
+/*  Stavy  */
+.navs .cats li a:hover,.navs .cats li.ac a{color:#921f0b;}
+
+/* --------------------------------------------------------------------------------------------
+    Obsah
+-------------------------------------------------------------------------------------------- */
+
+.text{width:630px;float:left;padding-top:30px;}
+@media (max-width: 730px) 
+{.text{width:100%;}
+}
+
+/*  Motto  --------------------------------- */
+.text .title{min-height:20px;margin-bottom:25px !important;font:normal 1.5em 'Bree';color:#921f0a;}
+
+/*  Nadpisy  --------------------------------- */
+.text h1,.text h2,.text h3,.text h4,.text h5,.text h6{margin-bottom:10px;line-height:150%;font:bold 1em 'Bree';color:#000;}
+.text h1{margin-bottom:15px;font-size:2.3em;color:#921f0a;}
+.text h2{font-size:2em;}
+.text h3{font-size:1.7em;}
+.text h4{font-size:1.4em;}
+.text h5{font-size:1.2em;}
+.text h6{font-size:1em;}
+
+/*  Varianty  ----------------- */
+.text h1.b-top{padding-top:10px;border-top:1px solid #000;}
+.text h1.b-bottom{padding-bottom:10px;border-bottom:1px solid #000;}
+.text h1 strong{font-weight:normal;color:#000;}
+
+/*  Bloky  --------------------------------- */
+.text p,.text address{margin-bottom:15px;line-height:170%;}
+.text p.desc{text-shadow:0 1px 0 #e9e9e9;font-size:1.3em;color:#2d2d2d;}
+.text p.error{padding:4px 0 1px 35px;background:url('../img/error.png') left 5px no-repeat;font-size:1.4em;color:#373737;}
+.text blockquote{margin-bottom:25px;padding:10px 15px 10px 20px;background-color:#f8f8f8;border-left:3px solid #e7e7e7;font:1em Georgia,'Times new Roman,serif';font-style:italic;}
+.text blockquote p{margin-bottom:0;}
+
+/*  Varianty  ----------------- */
+.text p.b-top{padding-top:10px;border-top:1px solid #000;}
+.text p.b-bottom{margin-top:-10px;padding-bottom:15px;border-bottom:1px solid #000;}
+
+/*  Seznamy  --------------------------------- */
+.text ul,.text ol{margin:0 0 20px 2px;}
+.text ol{margin-left:20px;}
+.text ul ul,.text ol ul,.text ul ol,.text ol ol{margin:5px 0 5px 10px;}
+.text ol ol,.text ul ol{margin-left:32px;}
+.text ol ol{list-style-type:lower-alpha;}
+.text ul li,.text ol li{margin:0 0 4px 0;line-height:160%;}
+.text ul li{padding-left:12px;background:url('../img/text-ul-li.gif') left 7px no-repeat;}
+.text ul ol li{padding-left:0;background:transparent;list-style-type:decimal;}
+
+/*  Vyberove  ----------------- */
+.text ul.select{margin:0 0 20px 0;}
+.text ul.select li{margin:0;padding:0;background:transparent;line-height:100%;}
+.text ul.select li a{margin:0 1px 1px 0;padding:8px 12px 8px 12px;background-color:#f3f3f3;border-radius:4px;}
+
+/*  Odlisnosti  -------- */
+.text ul.select.inline-block li a{display:inline-block;}
+.text ul.select.block li a{display:block;}
+.text ul.select.line li a{float:left;}
+
+/*  Stavy  */
+.text ul.select li a:hover{background-color:#921f0a;color:#fff;}
+
+/*  Socialni  ----------------- */
+.text ul.social{margin:8px 0 15px 0;font-size:0.9em;}
+.text ul.social.f-left{margin-right:20px;}
+.text ul.social.f-right{margin-left:20px;}
+.text ul.social li{float:left;margin:0 10px 10px 0;padding:0;}
+.text ul.social.f-left li,.text ul.social.f-right li{float:none;}
+
+/*  Obsah  -------- */
+.text ul.social li a{position:relative;display:block;}
+.text ul.social li a img{padding:0;border:none;}
+.text ul.social li a span{min-width:120px;position:absolute;top:0;left:45px;display:none;padding:4px 6px;background-color:#000;line-height:140%;color:#fff;}
+
+/*  Stavy  */
+.text ul.social li a:hover span{z-index:1;display:block;}
+
+/*  Archiv  ----------------- */
+.text ul.archive{width:110%;margin:0;}
+.text ul.archive li.item{width:134px;float:left;margin:0 28px 20px 0;padding:0;background:transparent;}
+.text ul.archive li.item h2{margin:0 0 7px;line-height:100%;font-size:1.3em;}
+.text ul.archive li.item img{margin-bottom:5px;padding:0;border:none;}
+.text ul.archive li.item ul{margin:0;}
+.text ul.archive li.item ul li{margin-bottom:2px;}
+
+/*  Definicni  ----------------- */
+.text dl{margin:15px 0 25px 10px;}
+.text dl dt{margin-bottom:5px;line-height:150%;font:bold 1.3em 'Bree';color:#921f0a;}
+.text dl dd{margin:0 0 15px 10px;line-height:160%;}
+
+/*  Tabulky  --------------------------------- */
+.text table{width:100%;margin-bottom:25px;border-collapse:separate;border-spacing:1px;font-size:0.9em;}
+.text table.w-100{width:100%;}
+.text table caption{padding:0 0 10px 0;text-align:center;font:bold 1.5em 'Bree';color:#921f0a;}
+.text table th,.text table td{padding:6px 7px;background-color:#f8f8f8;line-height:150%;}
+.text table thead th{background-color:#202020;font:normal 1.3em 'Bree';color:#fff;}
+
+/*  Special  ----------------- */
+.text table .odd th,.text table .odd td{background-color:#f0f0f0;}
+
+/*  Formulare  --------------------------------- */
+.text form{margin-bottom:20px;}
+
+/*  Struktura  ----------------- */
+.text form p{position:relative;display:none;margin:0 0 13px 0;line-height:100%;}
+.text form fieldset p{display:block;}
+.text form p.info{margin:0 0 20px 0;line-height:160%;font-weight:bold;}
+.text form label{width:100px;float:left;margin:8px 15px 0 0;font:normal 1em 'Bree';}
+
+/*  Tipy  ----------------- */
+.text form h3{margin:15px 0 10px 0;line-height:100%;font-weight:normal;color:#921f0a;}
+.text form strong{float:left;margin:12px 10px 0 0;font-size:1.3em;color:#cd1e36;}
+.text form .info{float:left;margin:0 10px 0 0;}
+
+/*  Formularove prvky  ----------------- */
+.text form input[type="text"],.text form input[type="password"],.text form textarea{float:left;margin-right:10px;padding:8px 9px;background-color:#f8f8f8;border:1px solid #e8e8e8;color:#626262;}
+.text form textarea{height:auto;padding-top:8px;padding-bottom:8px;line-height:170%;}
+.text form input[type="submit"]{float:left;margin-left:115px;margin-right:10px;padding:8px 10px;background-color:#921f0a;border:none;font:normal 1.2em 'Bree';color:#fff;}
+
+/*  Hlasky, chyby a loadery  ----------------- */
+.text form .wpcf7-response-output{margin-bottom:-2px;font:bold 1.6em 'BebasNeue';}
+.text form .wpcf7-response-output.wpcf7-mail-sent-ok{color:#889519;}
+.text form .wpcf7-response-output.wpcf7-validation-errors{color:#cd1e36;}
+.text form .wpcf7-not-valid-tip{position:absolute;left:125px;top:9px;z-index:1;display:inline-block;font-size:1.3em;font-weight:bold;color:#cd1e36;}
+.text form input[type="text"].wpcf7-not-valid,.text form input[type="password"].wpcf7-not-valid,.text form textarea.wpcf7-not-valid{border-color:#cd1e36;}
+.text form img{float:left;margin-top:6px;padding:0;border:none;}
+
+/*  Zarovnavani  -------- */
+.text img.alignleft{float:left;margin:5px 15px 15px 0;}
+.text img.alignright{float:right;margin:5px 0 15px 15px;}
+.text img.aligncenter{display:block;margin:25px auto;}
+.text img.bez{display:left !important;margin:0 5px;border:none}
+
+/*  Captions  ----------------- */
+.text .wp-caption{display:block;margin:0 auto 20px auto;}
+.text .wp-caption p{margin:0;text-align:center;line-height:160% !important;font:0.9em Georgia,'Times new Roman,serif';font-style:italic;}
+.text .wp-caption img{margin-bottom:10px;}
+
+/*  Zarovnavani  -------- */
+.text .wp-caption.alignleft{float:left;margin:7px 30px 15px 0;}
+.text .wp-caption.alignright{float:right;margin:7px 0 15px 30px;}
+
+/*  Galerie  ----------------- */
+.text .gallery{width:110%;margin-bottom:5px;}
+.text .gallery img{float:left;margin:0 12px 12px 0;}
+
+/*  Galerie (slider)  ----------------- */
+.text .gallery-slider,.text .gallery-slider .slides-c,.text .gallery-slider .slides-s,.text .gallery-slider .slides-s li{width:460px;height:230px;position:relative;overflow:hidden;}
+.text .gallery-slider{margin-bottom:25px;padding:7px;background-color:#fff;border:1px solid #e1e1e1;font-family:Arial,Tahoma;}
+.text .gallery-slider .slides-s{margin:0;}
+.text .gallery-slider .slides-s li{margin:0;padding:0;background:transparent;line-height:100%;}
+
+/*  Obsah  -------- */
+.text .gallery-slider img{padding:0;border:none;}
+.text .gallery-slider p{width:100%;position:absolute;left:0;bottom:0;z-index:12;margin:0;padding:12px 13px 10px 10px;background-color:#000;line-height:100%;color:#fff;}
+
+/*  Strankovani  -------- */
+.text .gallery-slider .pagination{position:absolute;right:10px;top:10px;z-index:11;}
+.text .gallery-slider .pagination li{float:left;margin:0 0 0 5px;padding:0;background:transparent;line-height:100%;}
+.text .gallery-slider .pagination li a{display:block;padding:7px 10px 8px 10px;background-color:#000;text-align:center;text-decoration:none;color:#fff;}
+
+/*  Stavy  */
+.text .gallery-slider .pagination li.current a,.text .gallery-slider .pagination li a:hover{background-color:#921f0a;color:#fff;}
+
+/*  Sipky  -------- */
+.text .gallery-slider .arrow{width:30px;position:absolute;top:85px;z-index:12;display:block;padding:7px 0 11px 0;background-color:#000;text-align:center;text-decoration:none;color:#fff;}
+.text .gallery-slider .arrow.prev{left:10px;}
+.text .gallery-slider .arrow.next{right:10px;}
+
+/*  Stavy  */
+.text .gallery-slider .arrow:hover{background-color:#921f0a;color:#fff;}
+
+/*  Vypis clanku  --------------------------------- */
+.text .article{position:relative;margin: 0 0 20px;padding-left: 130px;}
+.art-img{position: absolute;top:0;left:0;width:120px;height: 120px;}
+.article-link{outline:none;text-decoration: none;}
+.article:after {content:''; display:block; clear:both;}
+.article h2{margin:-5px 0 .2em -15px;padding-left: 15px;}
+.article h2:hover{color:#85236E;}
+.date {color:#aaa;margin:0;}
+.art-info a{outline:none;text-decoration: none;color:#85236E;}
+.art-info a:hover{text-decoration: underline;}
+.art-info .comments-link{float:right;}
+.article .perex{margin-top:10px;}
+.stitek{background-color: #000; color:#fff; padding: 0 .4em; font:normal .85em 'Bree'}
+
+
+/*  Nadpis  ----------------- */
+/*.text .article h2{margin-bottom:5px;font-size:1.4em;font-weight:normal;}*/
+.text .article h2 a{color:#000;}
+.text .article h2 a:hover{color:#921f0a;}
+
+/*  Zamceny clanek  -------- */
+.text .article h2.lock{padding:1px 0 0 18px;background:url('../img/lock.png') left center no-repeat;}
+
+/*  Bloky  ----------------- */
+.text .article p{margin-bottom:10px;line-height:150%;font-size:1.2em;}
+.text .article p.cat{margin-bottom:5px;line-height:100%;font:normal 1.3em 'Bree';}
+
+/*  Meta informace  ----------------- */
+.text .article ul{clear:both;margin:0;font-size:0.9em;color:#666;}
+.text .article ul li{float:left;margin:0 20px 0 0;padding:1px 0 2px 0;background:transparent;line-height:100%;}
+.text .article ul li.date{text-transform:lowercase;}
+.text .article ul li strong{text-transform:uppercase;text-decoration:underline;}
+
+/*  DN ikona autora  -------- */
+.text .article ul li.dn-icon{padding-left:23px;background:url('../img/article-ul-li_dn-icon.gif') no-repeat;}
+
+
+/*  2. typ (obsah cisla)  ----------------- */
+.text .article.detail .f-left{width:110px;}
+.text .article.detail .f-right{width:350px;}
+
+/*  Nadpis  -------- */
+.text .article.detail h2{margin-bottom:10px;font-size:1.2em;font-weight:bold;}
+.text .article.detail h2.lock{padding:0 0 0 18px;}
+
+/*  Bloky  -------- */
+.text .article.detail p.cat{text-align:center;text-transform:uppercase;font-size:0.9em;}
+.text .article.detail p.cat a{line-height:170%;}
+
+/*  Nahled  -------- */
+.text .article.detail img{float:left;margin:3px 16px 15px 0;}
+
+/*  Meta informace  --------------------------------- */
+.text .meta{margin:0 0 15px 0;padding-bottom:0;}
+.text .meta li{margin:0 0 7px 0;padding:0;background:transparent;line-height:100%;font-style:italic;color:#797979;}
+.text .meta li strong{color:#000;}
+
+/*  Komentare  --------------------------------- */
+.text .comments{margin:20px 0 15px 0;padding-bottom:10px;border-bottom:1px solid #000;}
+.text .comments li{margin:20px 0 0 0;padding:0;list-style:none !important;}
+.text .comments li ul{margin:0 0 0 15px;}
+.text .comments li ul li{margin:20px 0 0 15px;padding:0 0 0 15px;background:transparent;border-left:1px solid #797979;list-style:none !important;}
+
+/*  Obsah  ----------------- */
+.text .comments li h3{margin-bottom:7px;line-height:100%;font-size:1.3em;}
+.text .comments li p{margin-bottom:10px;font-size:0.9em;color:#666;}
+.text .comments li p.foot{font-style:italic;}
+.text .comments li img{float:right;margin:4px 0 15px 15px;}
+
+/*  Strankovani  --------------------------------- */
+.text .paging{margin:20px 0 30px 0;}
+.text .paging li{float:left;margin:0 5px 0 0;padding:0;background:transparent;line-height:100%;}
+.text .paging li a{display:block;padding:7px 8px 7px 8px;background-color:#f6f6f6;border:1px solid #ccc;text-decoration:none;color:#262626;}
+
+/*  Zarovnane strankovani v detailu clanku  ----------------- */
+.text .paging.f-right{margin:0 0 10px 0;}
+.text .paging.f-right li{margin:0 0 0 7px;}
+
+/*  Stavy  */
+.text .paging li a:hover{background-color:#ad2d15;border-color:#921f0a;color:#fff;}
+.text .paging li.ac a{padding-top:4px;background-color:transparent;border:none;font-size:1.25em;font-weight:bold;color:#000;}
+
+/*  Taby  --------------------------------- */
+.text .tabs{margin:0 0 20px 0;border-bottom:1px solid #000;font:normal 1.2em 'Bree';}
+.text .tabs li{float:left;margin:0 10px 0 0;padding:4px 5px 1px 5px;background:transparent;border:1px solid #808080;border-bottom:none;border-left:1px solid #fff;line-height:100%;}
+.text .tabs li a{display:block;padding:4px 5px;background-color:#808080;text-decoration:none;color:#fff;}
+
+/*  Stavy  */
+.text .tabs li.ac{margin-bottom:-1px;padding-bottom:5px;border-left:1px solid #808080;border-bottom:1px solid #fff;border-color:#000;}
+.text .tabs li.ac a,.text .tabs li a:hover{background-color:#000;}
+
+/*  Obsah tabu  ----------------- */
+.text .tab-content{margin-bottom:25px;}
+.text .tab-content p{margin-bottom:15px;}
+
+/*  Rozbalovaci FAQ  --------------------------------- */
+.text .faq{margin:15px 0 25px 10px;}
+.text .faq dt{margin-bottom:10px;padding-left:15px;background:url('../img/text-faq-dt.png') left 4px no-repeat;line-height:150%;font:bold 1.25em 'Bree';color:#921f0a;cursor:pointer;}
+.text .faq dd{width:430px;clear:both;overflow:hidden;margin:0 0 20px 15px;line-height:170%;}
+
+/*  Stavy  */
+.text .faq dt.ac{background:url('../img/text-faq-dt_ac.png') left 7px no-repeat;color:#22272b;}
+
+/*  Linka  --------------------------------- */
+.text .line.hr{width:100%;height:1px;min-height:1px;margin-bottom:15px;background-color:#000;}
+
+/*  Bannery  --------------------------------- */
+/*.text .banner{margin:-10px 0 20px 0;padding:4px 4px 3px 4px;border:1px solid #d9d9d9;border-radius:3px;}*/
+
+/*  Drobnosti  --------------------------------- */
+.text abbr{display:inline-block;padding:2px 4px;background-color:#fff;border:1px dotted #c9c7bb;}
+.text sup,.text sub{font-size:0.75em;font-weight:bold;color:#5e524d;}
+.text sup{vertical-align:super;}
+.text sub{vertical-align:sub;}
+
+/* --------------------------------------------------------------------------------------------
+    Sloupce
+-------------------------------------------------------------------------------------------- */
+
+.side{font-family:Arial,Helvetica,sans-serif;color:#2f2f2f;}
+.side{float:right;width:250px;float:right;margin-bottom:10px;padding:50px 0 0 10px;font-size:1em;}
+
+@media (max-width: 980px) 
+{
+.content{clear:both;}
+.side{width:100%;float:left;column-count: 3;}
+}
+@media (max-width: 850px) 
+{
+.content{clear:both;}
+.side{width:100%;float:left;column-count: 2;}
+.side img{float:left;}
+}
+@media (max-width: 730px) 
+{
+.content{clear:both;}
+.side{width:100%;float:left;column-count: 1;display:none;}
+}
+
+
+/*  Nadpisy  --------------------------------- */
+.side h3{margin-bottom:10px;font:bold 1.5em 'Bree';color:#FFF;background:#85236E;width:100%;position:relative;text-align: center;padding: 5px 0;}
+.side h4{margin:15px 0 5px 0;text-transform:uppercase;color:#921f0a;}
+.side h5{margin-bottom:0px;line-height:12	0%;}
+
+/*  Odlisnosti  ----------------- */
+.side h3.year{min-height:37px;}
+
+/*  Bloky  --------------------------------- */
+.side p{margin-bottom:5px;line-height:160%;font-weight:normal;}
+.side p.line{margin-bottom:10px;padding-bottom:15px;border-bottom:1px solid #000;}
+
+/*  Seznamy  --------------------------------- */
+.side ul{margin:0 0 15px 5px;}
+.side ul li{margin-bottom:4px;padding-left:12px;background:url('../img/side-ul-li.png') left 4px no-repeat;}
+.side ul li a{line-height:140%;}
+
+/*  Stavy  */
+.side ul li.ac a{text-decoration:none;font-weight:bold;color:#921f0a;}
+
+/*  Formulare  --------------------------------- */
+.side form{margin-bottom:10px;}
+
+/*  Struktura  ----------------- */
+.side form p{margin-bottom:5px;line-height:100%;}
+
+/*  Formularove prvky  ----------------- */
+.side form select{width:150px;padding:3px 5px;}
+.side form input[type="text"]{width:138px;padding:3px 5px;background:#fff;border:1px solid #999;}
+.side form input[type="submit"]{padding:4px 8px;background:#242424;border:none;color:#fff;}
+
+/*  Obrazky  --------------------------------- */
+.side img{margin-bottom:15px;box-shadow:0 0 20px -5px #ccc1ac;}
+
+/*  Facebook  --------------------------------- */
+.side iframe{margin:20px 0 10px 0;background-color:#fff;}
+
+/*  Zamceny obsah  --------------------------------- */
+.side .lock{background:url('../img/lock.png') left 1px no-repeat;text-indent:15px;}
+.side p.lock{margin-top:14px;padding:10px 15px 10px 32px;background-color:#fefaf2;background-position:10px 12px;border:1px solid #ede2cc;text-indent:0;}
+
+/*  Bannery  --------------------------------- */
+.side .banner{margin-bottom:10px;}
+/* padding:0 5px 15px 10px;border:1px solid #d9d9d9;border-radius:3px; */
+
+/*  Uprava tlacitek  ----------------- */
+.side .btn{margin-top:15px;display:block;}
+
+/*  Drobnosti  */
+.side a{font-weight:bold;color:#000;}
+.side a:hover{text-decoration:underline;color:#921f0a;}
+
+/*  Odlisnosti dle typu sloupce  ----------------- */
+.side.f-left h3{padding-top:10px;border-top:1px solid #000;font-size:1.25em;font-weight:normal;}
+.side.f-left img{box-shadow:none;}
+.side.f-left a{font-weight:normal;}
+
+/* --------------------------------------------------------------------------------------------
+    Paticka
+-------------------------------------------------------------------------------------------- */
+
+.footer{width:600px;float:left;clear:both;margin-left:192px;padding-top:15px;border-top:1px solid #000;font:normal 0.9em Arial,Helvetica,sans-serif;color:#666;}
+
+/*  Obsah  --------------------------------- */
+.footer p{line-height:150%;}
+.footer img{float:left;margin:4px 15px 0 0;}
+.footer .webarchive{float:right;margin:0 0 0 15px;width:50px;height: 50px;}
+
+/*  Drobnosti  */
+.footer a{color:#666;}
+.footer a:hover{color:#000;}
+
+@media (max-width: 980px) 
+{
+}
+@media (max-width: 850px) 
+{
+}
+@media (max-width: 730px) 
+{
+.footer{width:100%;margin-left:5px;}
+}
+
+
+
+/* --------------------------------------------------------------------------------------------
+    Typy priloh
+-------------------------------------------------------------------------------------------- */
+
+/*  Obrazky  --------------------------------- */
+.attachment{padding:25px 40px 25px 40px;background:#000;color:#fff;}
+.attachment .text{width:800px;float:none;margin:0;}
+.attachment .text img{margin-bottom:15px;}
+.attachment .text a:hover{color:#fff;}
+
+/* --------------------------------------------------------------------------------------------
+    Rozdily natazeneho obsahu
+-------------------------------------------------------------------------------------------- */
+
+/*  Plne natazeny obsah  --------------------------------- */
+.full .center{background:#fff;}
+.full .logo{margin-right:0;}
+.full .navs{width:760px;float:right;}
+.full .content,.full .text{width:930px;float:none;clear:both;}
+.full .footer{width:930px !important;float:none;margin:0;}
+
+/*  2. UROVEN KOMENTARE  --------------------------------- */
+
+/*  3. UROVEN KOMENTARE  ----------------- */
+
+/*  4. UROVEN KOMENTARE  -------- */
+
+/*  DOVETKY  */
